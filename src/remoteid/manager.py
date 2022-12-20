@@ -11,7 +11,7 @@ from .ble import BluetoothService
 from .ble_advertising import advertising_payload
 
 import ubluetooth
-import ubinascii
+import gc
 import time
 
 class RemoteIDPayload:
@@ -103,6 +103,7 @@ class RemoteIDManager:
             return
         
         print(payload.payload)
+        gc.collect()
 
     def queue_add(self, message):
         self._queue[message.__class__.__name__] = message
@@ -149,3 +150,4 @@ class RemoteIDManager:
         self.ble_service.advertise(payload)
 
         self._last_send = now
+        gc.collect()
